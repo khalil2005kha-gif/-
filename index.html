@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="متجر إلكتروني متكامل باللغة العربية يتيح للعملاء شراء أحدث الأجهزة الفاخرة ويحتوي على لوحة تحكم كاملة للإدارة لإضافة المنتجات والأقسام وتعديلها.">
+    <title>متجر إمباير الإلكتروني - بوابة التسوق الفاخرة</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- الهيدر الرئيسي للموقع -->
+        <header>
+            <div class="header-content">
+                <a href="#home" class="logo">
+                    <span>💎</span> إمباير ستور
+                </a>
+                
+                <ul class="nav-links">
+                    <li class="active"><a href="#home">الرئيسية</a></li>
+                    <li><a href="#shop">المتجر</a></li>
+                </ul>
+                
+                <div class="header-actions">
+                    <!-- سلة المشتريات -->
+                    <button class="btn-icon" id="btn-cart" title="سلة المشتريات" id="cart-nav-btn">
+                        🛒
+                        <span class="badge" id="cart-badge" style="display: none;">0</span>
+                    </button>
+                    
+                    <!-- أزرار الدخول والحساب -->
+                    <div id="auth-action-container">
+                        <!-- يتم ملؤها ديناميكياً بواسطة js -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ==================== 1. شاشة المتجر الرئيسي والكتالوج ==================== -->
+        <main class="screen active" id="home-screen">
+            <!-- قسم الهيرو (Hero Section) -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1 class="hero-title">تسوق الفخامة والجودة من مكان واحد</h1>
+                        <p class="hero-subtitle">اكتشف تشكيلتنا الحصرية من الإلكترونيات، الساعات، والأحذية الرياضية الفاخرة مع خدمة التوصيل السريع والدفع الآمن.</p>
+                        <button class="btn-hero" onclick="window.location.hash='#shop'">تسوّق الآن ➔</button>
+                    </div>
+                    <div class="hero-image-container">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="تسوق إلكتروني">
+                    </div>
+                </div>
+            </section>
+
+            <!-- تصفح الأقسام (Categories) -->
+            <section class="section-container">
+                <div class="section-title">
+                    <h2>تصفح حسب الأقسام</h2>
+                </div>
+                <div class="categories-grid" id="categories-container">
+                    <!-- يتم رسم الأقسام بواسطة JS -->
+                </div>
+            </section>
+
+            <!-- كتالوج المنتجات (Product Catalog) -->
+            <section class="section-container" id="catalog-section">
+                <div class="section-title">
+                    <h2>أحدث منتجاتنا المميزة</h2>
+                </div>
+                
+                <!-- شريط التصفية والبحث -->
+                <div class="filter-bar">
+                    <div class="search-input-wrapper">
+                        <input type="text" id="search-products" placeholder="ابحث عن المنتجات بالاسم أو الوصف...">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    
+                    <select id="sort-products" class="filter-select">
+                        <option value="default">الترتيب الافتراضي</option>
+                        <option value="price-asc">السعر: من الأقل للأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                    </select>
+                </div>
+
+                <!-- شبكة المنتجات -->
+                <div class="products-grid" id="products-grid">
+                    <!-- يتم رسم المنتجات بواسطة JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- ==================== 2. شاشة تسجيل الدخول وإنشاء الحساب ==================== -->
+        <main class="screen" id="auth-screen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2 class="auth-title">مرحباً بك في إمباير ستور</h2>
+                    <p class="auth-subtitle">سجل دخولك لتتمكن من الشراء ومتابعة طلباتك</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="tab-login">تسجيل الدخول</div>
+                    <div class="auth-tab" id="tab-register">حساب جديد</div>
+                </div>
+
+                <!-- نموذج تسجيل الدخول -->
+                <form class="auth-form active" id="login-form">
+                    <div class="alert alert-danger" id="login-alert" style="display: none;"></div>
+                    <div class="form-group">
+                        <label for="login-username">اسم المستخدم *</label>
+                        <input type="text" id="login-username" required placeholder="مثال: customer">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">كلمة المرور *</label>
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-submit" id="login-form-el">دخول للمتجر</button>
+                    <a href="#" onclick="storeApp.showForgotPasswordForm(event)" style="display: block; text-align: center; margin-top: 12px; font-size: 13px; color: var(--primary); font-weight: 600; text-decoration: underline;">نسيت كلمة المرور؟</a>
+
+                </form>
+
+                <!-- نموذج إنشاء حساب جديد -->
+                <form class="auth-form" id="register-form">
+                    <div class="alert alert-danger" id="register-alert" style="display: none;"></div>
+                    <div class="form-group">
+                        <label for="reg-name">الاسم الكامل *</label>
+                        <input type="text" id="reg-name" required placeholder="مثال: أحمد العتيبي">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-username">اسم المستخدم *</label>
+                        <input type="text" id="reg-username" required placeholder="مثال: ahmad99">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">البريد الإلكتروني *</label>
+                        <input type="email" id="reg-email" required placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">كلمة المرور *</label>
+                        <input type="password" id="reg-password" required placeholder="••••••••">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">رقم الجوال</label>
+                        <input type="text" id="reg-phone" placeholder="05xxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-address">العنوان بالتفصيل</label>
+                        <textarea id="reg-address" rows="2" placeholder="المدينة، الشارع، رقم المنزل..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="register-form-el">إنشاء حساب جديد</button>
+                </form>
+
+                <!-- نموذج استعادة كلمة المرور -->
+                <form class="auth-form" id="forgot-password-form">
+                    <div class="alert alert-danger" id="forgot-alert" style="display: none;"></div>
+                    
+                    <!-- الخطوة الأولى: إدخال البريد الإلكتروني -->
+                    <div id="forgot-step-1" style="display: flex; flex-direction: column; gap: 16px;">
+                        <div class="form-group">
+                            <label for="forgot-email">البريد الإلكتروني المسجل *</label>
+                            <input type="email" id="forgot-email" placeholder="example@mail.com">
+                        </div>
+                        <button type="button" class="btn-submit" onclick="storeApp.sendResetCode()" style="width: 100%; margin-top: 10px;">إرسال رمز التحقق عبر الجيميل 📧</button>
+                    </div>
+
+                    <!-- الخطوة الثانية: إدخال رمز التحقق -->
+                    <div id="forgot-step-2" style="display: none; flex-direction: column; gap: 16px;">
+                        <p style="font-size: 13px; color: var(--success); font-weight: bold; margin-bottom: 12px; text-align: center;">
+                            رمز التحقق مسود حالياً في جيميل المفتوح بنافذة جديدة. 
+                            <br>الرمز للنسخ والمتابعة السريعة:
+                        </p>
+                        <p id="forgot-simulated-code" style="text-align: center; font-size: 24px; font-weight: 800; letter-spacing: 4px; background: var(--primary-light); padding: 10px; border-radius: var(--radius-sm); margin-bottom: 16px; color: var(--primary);"></p>
+                        <div class="form-group">
+                            <label for="forgot-code">أدخل رمز التحقق المكون من 6 أرقام *</label>
+                            <input type="text" id="forgot-code" placeholder="••••••" style="text-align: center; font-weight: bold; font-size: 18px; letter-spacing: 2px;">
+                        </div>
+                        <button type="button" class="btn-submit" onclick="storeApp.verifyResetCode()" style="width: 100%; margin-top: 10px;">التحقق من الرمز ➔</button>
+                    </div>
+
+                    <!-- الخطوة الثالثة: تعيين كلمة المرور الجديدة -->
+                    <div id="forgot-step-3" style="display: none; flex-direction: column; gap: 16px;">
+                        <div class="form-group">
+                            <label for="forgot-new-password">كلمة المرور الجديدة *</label>
+                            <input type="password" id="forgot-new-password" placeholder="••••••••">
+                        </div>
+                        <button type="button" class="btn-submit" onclick="storeApp.resetPassword()" style="width: 100%; margin-top: 10px;">تحديث كلمة المرور والدخول 🔒</button>
+                    </div>
+
+                    <a href="#" onclick="storeApp.showAuthTab('login')" style="display: block; text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-muted); text-decoration: underline;">العودة لتسجيل الدخول</a>
+                </form>
+            </div>
+        </main>
+
+        <!-- ==================== 3. شاشة صفحة الدفع والشحن ==================== -->
+        <main class="screen" id="checkout-screen">
+            <div class="checkout-layout">
+                <!-- تفاصيل الشحن والعميل -->
+                <div class="checkout-card">
+                    <h3 class="checkout-section-title">بيانات الشحن والتوصيل</h3>
+                    <form id="checkout-form-el">
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label for="cust-name">اسم المستلم بالكامل *</label>
+                            <input type="text" id="cust-name" required placeholder="أدخل اسم المستلم بالكامل">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label for="cust-phone">رقم جوال الاتصال *</label>
+                            <input type="text" id="cust-phone" required placeholder="05xxxxxxxx">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 16px;">
+                            <label for="cust-address">عنوان التوصيل بالتفصيل *</label>
+                            <textarea id="cust-address" rows="3" required placeholder="مثال: الرياض، حي الياسمين، شارع الملقا، مبنى رقم 4"></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit" style="width: 100%;">تأكيد وإتمام الشراء بنجاح</button>
+                    </form>
+                </div>
+
+                <!-- ملخص الطلب والمنتجات -->
+                <div class="checkout-card">
+                    <h3 class="checkout-section-title">ملخص المنتجات المطلوبة</h3>
+                    <div class="checkout-items" id="checkout-items-list">
+                        <!-- تملأ ديناميكياً -->
+                    </div>
+                    <div class="checkout-total-row">
+                        <span>المجموع الكلي</span>
+                        <span id="checkout-total-price">0 ر.س</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================== 4. شاشة لوحة تحكم حساب العميل ==================== -->
+        <main class="screen" id="customer-dashboard-screen">
+            <div class="dashboard-layout">
+                <!-- شريط جانبي للعميل -->
+                <aside class="dashboard-sidebar">
+                    <div class="user-info-card">
+                        <div class="user-avatar" id="lbl-avatar">👤</div>
+                        <h3 class="user-display-name" id="lbl-user-name">اسم العميل</h3>
+                        <p class="user-email" id="lbl-user-email">customer@gmail.com</p>
+                    </div>
+                    <ul class="dashboard-menu">
+                        <li class="active"><a href="#account-dashboard">📦 طلباتي السابقة</a></li>
+                        <li><a href="#home" onclick="storeApp.logoutUser()">🚪 تسجيل الخروج</a></li>
+                    </ul>
+                </aside>
+
+                <!-- تفاصيل الحساب والطلبات -->
+                <div class="dashboard-content">
+                    <div class="checkout-card" style="margin-bottom: 0; padding: 24px;">
+                        <h3 class="checkout-section-title">تفاصيل حسابك وعنوانك</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px;">
+                            <div><strong>رقم الجوال:</strong> <span id="lbl-user-phone">0555555555</span></div>
+                            <div><strong>عنوان الشحن الافتراضي:</strong> <span id="lbl-user-address">الرياض، السعودية</span></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; font-family: var(--font-tajawal);">سجل الطلبات وتتبع الحالات</h2>
+                        <div class="dashboard-orders-list" id="customer-orders-container">
+                            <!-- تملأ ديناميكياً ببطاقات الطلبات -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================== 5. شاشة لوحة تحكم الإدارة (Admin Dashboard) ==================== -->
+        <main class="screen" id="admin-dashboard-screen">
+            <div class="admin-layout">
+                <!-- شريط جانبي للمدير -->
+                <aside class="admin-sidebar">
+                    <div class="user-info-card" style="padding-bottom: 10px; margin-bottom: 10px;">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #059669)">👑</div>
+                        <h3 class="user-display-name">بوابة المدير</h3>
+                        <p class="user-email">إدارة متكاملة</p>
+                    </div>
+                    <ul class="admin-menu">
+                        <li class="active"><a href="#admin-overview">📊 نظرة عامة</a></li>
+                        <li><a href="#admin-products">🛍️ إدارة المنتجات</a></li>
+                        <li><a href="#admin-categories">📁 إدارة الأقسام</a></li>
+                        <li><a href="#admin-orders">📦 إدارة الطلبات</a></li>
+                        <li><a href="#home">🌐 عرض المتجر</a></li>
+                        <li><a href="#home" onclick="storeApp.logoutUser()">🚪 تسجيل الخروج</a></li>
+                    </ul>
+                </aside>
+
+                <!-- المحتوى الرئيسي للمدير -->
+                <div class="admin-main">
+                    
+                    <!-- أ. صفحة نظرة عامة (Overview) -->
+                    <div class="admin-sub-page" id="admin-page-overview">
+                        <div class="admin-page-header">
+                            <h2 class="admin-page-title">لوحة المراقبة والإحصائيات</h2>
+                        </div>
+                        
+                        <!-- كروت المؤشرات -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-label">إجمالي المبيعات</span>
+                                    <span class="stat-value" id="stat-total-sales">0 ر.س</span>
+                                </div>
+                                <div class="stat-icon stat-icon-sales">💰</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-label">عدد الطلبات</span>
+                                    <span class="stat-value" id="stat-total-orders">0</span>
+                                </div>
+                                <div class="stat-icon stat-icon-orders">📦</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-label">المنتجات المعروضة</span>
+                                    <span class="stat-value" id="stat-total-products">0</span>
+                                </div>
+                                <div class="stat-icon stat-icon-products">🛍️</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-info">
+                                    <span class="stat-label">إجمالي الزبائن</span>
+                                    <span class="stat-value" id="stat-total-customers">0</span>
+                                </div>
+                                <div class="stat-icon stat-icon-customers">👥</div>
+                            </div>
+                        </div>
+
+                        <!-- رسم بياني والطلبات الأخيرة -->
+                        <div class="admin-row-grid">
+                            <!-- رسم بياني للمبيعات -->
+                            <div class="admin-panel-card">
+                                <h3 class="admin-card-title">مخطط المبيعات لآخر 5 طلبات</h3>
+                                <div class="chart-container" id="sales-chart-container">
+                                    <!-- يتم التعبئة ديناميكياً بأعمدة CSS -->
+                                </div>
+                            </div>
+                            <!-- قائمة الطلبات الأخيرة -->
+                            <div class="admin-panel-card">
+                                <h3 class="admin-card-title">أحدث الطلبات الواردة</h3>
+                                <div class="table-responsive">
+                                    <table class="admin-table">
+                                        <thead>
+                                            <tr>
+                                                <th>الرقم</th>
+                                                <th>الزبون</th>
+                                                <th>التاريخ</th>
+                                                <th>الإجمالي</th>
+                                                <th>الحالة</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-orders-table-body">
+                                            <!-- تملأ ديناميكياً -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ب. صفحة إدارة المنتجات (Products Management) -->
+                    <div class="admin-sub-page" id="admin-page-products" style="display: none;">
+                        <div class="admin-page-header">
+                            <h2 class="admin-page-title">إدارة وتعديل المنتجات</h2>
+                            <button class="btn-primary-header" style="background-color: var(--primary)" onclick="admin.openAddProductModal()">
+                                ➕ إضافة منتج جديد
+                            </button>
+                        </div>
+
+                        <div class="admin-panel-card">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الصورة</th>
+                                            <th>الاسم</th>
+                                            <th>السعر</th>
+                                            <th>القسم</th>
+                                            <th>الكمية المتوفرة</th>
+                                            <th>الوصف</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-products-table-body">
+                                        <!-- تملأ ديناميكياً -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ج. صفحة إدارة الأقسام (Categories Management) -->
+                    <div class="admin-sub-page" id="admin-page-categories" style="display: none;">
+                        <div class="admin-page-header">
+                            <h2 class="admin-page-title">أقسام المتجر والتصنيفات</h2>
+                            <button class="btn-primary-header" style="background-color: var(--primary)" onclick="admin.openAddCategoryModal()">
+                                ➕ إضافة قسم جديد
+                            </button>
+                        </div>
+
+                        <div class="admin-panel-card">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الأيقونة</th>
+                                            <th>اسم القسم</th>
+                                            <th>رقم المعرف</th>
+                                            <th>الإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-categories-table-body">
+                                        <!-- تملأ ديناميكياً -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- د. صفحة إدارة الطلبات (Orders Management) -->
+                    <div class="admin-sub-page" id="admin-page-orders" style="display: none;">
+                        <div class="admin-page-header">
+                            <h2 class="admin-page-title">إدارة طلبات الشراء وشحنها</h2>
+                        </div>
+
+                        <div class="admin-panel-card">
+                            <div class="table-responsive">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>رقم الطلب</th>
+                                            <th>العميل والتلفون</th>
+                                            <th>التاريخ والوقت</th>
+                                            <th>المنتجات المطلوبة</th>
+                                            <th>السعر الإجمالي</th>
+                                            <th>تعديل حالة الشحن</th>
+                                            <th>التفاصيل</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-orders-table-body">
+                                        <!-- تملأ ديناميكياً -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- الفوتر السفلي للموقع -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">💎 إمباير ستور</div>
+                <div class="footer-copyright">&copy; 2026 جميع الحقوق محفوظة لمتجر إمباير الإلكتروني. تم التصميم باحترافية.</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ==================== نوافذ المودال المنبثقة (Modals) ==================== -->
+
+    <!-- 1. مودال تفاصيل المنتج للزبون -->
+    <div class="modal-overlay" id="product-detail-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="storeApp.closeProductDetails()">✕</button>
+            <div class="product-detail-layout">
+                <div class="product-detail-img">
+                    <img id="modal-detail-img" src="" alt="صورة المنتج">
+                </div>
+                <div class="product-detail-info">
+                    <h2 class="product-detail-title" id="modal-detail-name">اسم المنتج الفاخر</h2>
+                    <p class="product-detail-desc" id="modal-detail-desc">تفاصيل ووصف المنتج بالكامل...</p>
+                    <div class="product-detail-price" id="modal-detail-price">0 <span>ر.س</span></div>
+                    
+                    <div class="product-detail-actions">
+                        <div class="quantity-selector">
+                            <button class="qty-btn" onclick="document.getElementById('detail-qty').value = Math.max(1, parseInt(document.getElementById('detail-qty').value)-1)">-</button>
+                            <input type="number" class="qty-input" id="detail-qty" value="1" min="1">
+                            <button class="qty-btn" onclick="document.getElementById('detail-qty').value = parseInt(document.getElementById('detail-qty').value)+1">+</button>
+                        </div>
+                        <button class="btn-detail-add" id="btn-modal-add-cart">أضف إلى سلة المشتريات 🛒</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. مودال إضافة وتعديل منتج للمدير -->
+    <div class="modal-overlay" id="admin-product-modal">
+        <div class="modal-content" style="max-width: 600px; padding: 30px;">
+            <button class="modal-close" onclick="admin.closeProductModal()">✕</button>
+            <h3 class="checkout-section-title" id="modal-product-title" style="margin-bottom: 20px;">إضافة منتج جديد</h3>
+            
+            <form id="admin-product-form" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="form-group">
+                    <label for="prod-name">اسم المنتج *</label>
+                    <input type="text" id="prod-name" required placeholder="أدخل اسم المنتج">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label for="prod-price">السعر (ر.س) *</label>
+                        <input type="number" id="prod-price" required min="1" step="any" placeholder="4500">
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-stock">الكمية المتوفرة (المخزون)</label>
+                        <input type="number" id="prod-stock" min="0" value="10" placeholder="10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prod-category">قسم المنتج</label>
+                    <select id="prod-category">
+                        <!-- تملأ ديناميكياً -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="prod-desc">وصف وتفاصيل المنتج</label>
+                    <textarea id="prod-desc" rows="3" placeholder="اكتب تفاصيل وميزات المنتج هنا..."></textarea>
+                </div>
+                
+                <!-- تحميل وصورة المنتج -->
+                <div class="form-group">
+                    <label>صورة المنتج *</label>
+                    <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 16px; align-items: center;">
+                        <div>
+                            <input type="file" id="prod-image-file" accept="image/*" style="display: none;">
+                            <button type="button" class="btn-table" style="width: 100%; text-align: center; padding: 10px; border-style: dashed; justify-content: center;" onclick="document.getElementById('prod-image-file').click()">
+                                📤 ارفع صورة من جهازك
+                            </button>
+                            <div style="text-align: center; margin: 8px 0; color: var(--text-muted); font-size: 12px;">أو أدخل رابط صورة مباشر</div>
+                            <input type="url" id="prod-image-url" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="image-preview-box">
+                            <div class="image-preview-placeholder">
+                                <span>🖼️</span>
+                                <span>معاينة الصورة</span>
+                            </div>
+                            <img id="prod-image-preview" src="" alt="معاينة" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" style="margin-top: 10px;">حفظ وتأكيد المنتج</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. مودال إضافة وتعديل قسم للمدير -->
+    <div class="modal-overlay" id="admin-category-modal">
+        <div class="modal-content" style="max-width: 450px; padding: 30px;">
+            <button class="modal-close" onclick="admin.closeCategoryModal()">✕</button>
+            <h3 class="checkout-section-title" id="modal-category-title" style="margin-bottom: 20px;">إضافة قسم جديد</h3>
+            
+            <form id="admin-category-form" style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="form-group">
+                    <label for="cat-name">اسم القسم *</label>
+                    <input type="text" id="cat-name" required placeholder="أدخل اسم القسم (مثال: ملابس)">
+                </div>
+                <div class="form-group">
+                    <label for="cat-icon">رمز تعبيري أو أيقونة (Emoji) *</label>
+                    <input type="text" id="cat-icon" required value="📁" placeholder="مثال: 👟 أو 💻">
+                </div>
+                <button type="submit" class="btn-submit">حفظ وتأكيد القسم</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. مودال عرض تفاصيل طلب العميل بالتفصيل للمدير -->
+    <div class="modal-overlay" id="admin-order-modal">
+        <div class="modal-content" style="max-width: 550px; padding: 30px;">
+            <button class="modal-close" onclick="admin.closeOrderModal()">✕</button>
+            <h3 class="checkout-section-title" style="margin-bottom: 15px;">تفاصيل الطلب: <span id="modal-order-number" style="color: var(--primary);">ORD-000000</span></h3>
+            
+            <div style="margin-bottom: 20px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+                <div>التاريخ: <span id="modal-order-date">--</span></div>
+                <span class="order-status" id="modal-order-status">قيد الانتظار</span>
+            </div>
+
+            <!-- بيانات المستلم والاتصال -->
+            <div class="admin-panel-card" style="margin-bottom: 20px; background-color: var(--bg-app); border: none;">
+                <h4 style="font-weight: 700; margin-bottom: 10px; font-size: 14px;">معلومات العميل والشحن</h4>
+                <div style="font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+                    <div><strong>الاسم الكامل:</strong> <span id="modal-cust-name">--</span></div>
+                    <div><strong>رقم الجوال:</strong> <span id="modal-cust-phone">--</span></div>
+                    <div><strong>عنوان الشحن:</strong> <span id="modal-cust-address">--</span></div>
+                </div>
+            </div>
+
+            <!-- قائمة المنتجات المطلوبة -->
+            <div style="margin-bottom: 20px;">
+                <h4 style="font-weight: 700; margin-bottom: 10px; font-size: 14px;">المنتجات المطلوبة</h4>
+                <div id="modal-order-items-list" style="max-height: 200px; overflow-y: auto;">
+                    <!-- سيمتلئ ديناميكياً -->
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; color: var(--primary); padding-top: 15px; border-top: 1px solid var(--border-color)">
+                <span>الإجمالي الكلي</span>
+                <span id="modal-order-total">0 ر.س</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== سلة المشتريات المنزلقة (Drawer) ==================== -->
+    <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3 class="cart-title">سلة المشتريات</h3>
+            <button class="btn-icon" id="btn-close-cart" title="إغلاق السلة">✕</button>
+        </div>
+        
+        <div class="cart-items-list" id="cart-items-list">
+            <!-- تملأ ديناميكياً من السلة -->
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-summary-row">
+                <span>المجموع الفرعي:</span>
+                <span id="cart-subtotal">0 ر.س</span>
+            </div>
+            <a href="#checkout" class="btn-checkout" onclick="document.getElementById('cart-drawer').classList.remove('active'); document.getElementById('cart-drawer-overlay').classList.remove('active');">
+                إتمام الطلب والدفع ➔
+            </a>
+        </div>
+    </div>
+
+    <!-- تحميل سكربتات التطبيق بالترتيب المناسب -->
+    <script src="js/db.js?v=2"></script>
+    <script src="js/admin.js?v=2"></script>
+    <script src="js/app.js?v=2"></script>
+</body>
+</html>
