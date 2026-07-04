@@ -299,7 +299,7 @@
                         <h3 class="product-name">${p.name}</h3>
                         <p class="product-description">${p.description || ''}</p>
                         <div class="product-meta">
-                            <span class="product-price">${p.price} <span>ر.س</span></span>
+                            <span class="product-price">${p.price} <span>شيكل</span></span>
                             <button class="btn-add-cart" onclick="storeApp.addToCart('${p.id}', 1, event)" title="أضف إلى السلة">
                                 🛒
                             </button>
@@ -322,7 +322,7 @@
         document.getElementById('modal-detail-img').src = p.image;
         document.getElementById('modal-detail-name').textContent = p.name;
         document.getElementById('modal-detail-desc').textContent = p.description || 'لا يوجد وصف لهذا المنتج.';
-        document.getElementById('modal-detail-price').innerHTML = `${p.price} <span>ر.س</span>`;
+        document.getElementById('modal-detail-price').innerHTML = `${p.price} <span>شيكل</span>`;
         
         // إعداد زر الإضافة مع الكمية
         const qtyInput = document.getElementById('detail-qty');
@@ -407,7 +407,7 @@
                     <a href="#shop" onclick="document.getElementById('cart-drawer').classList.remove('active'); document.getElementById('cart-drawer-overlay').classList.remove('active');" style="color: var(--primary); font-weight: bold; text-decoration: underline;">تسوّق الآن</a>
                 </div>
             `;
-            summary.textContent = '0 ر.س';
+            summary.textContent = '0 شيكل';
             return;
         }
 
@@ -426,7 +426,7 @@
                     <img src="${p.image}" class="cart-item-img" alt="${p.name}" onerror="this.src='https://placehold.co/100x100?text=No+Image'">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${p.name}</div>
-                        <div class="cart-item-price">${p.price} ر.س</div>
+                        <div class="cart-item-price">${p.price} شيكل</div>
                         <div class="cart-item-qty-control">
                             <button class="cart-qty-btn" onclick="storeApp.changeCartItemQty('${p.id}', -1)">-</button>
                             <span class="cart-qty-val">${item.quantity}</span>
@@ -438,7 +438,7 @@
             `;
         });
 
-        summary.textContent = `${subtotal} ر.س`;
+        summary.textContent = `${subtotal} شيكل`;
     }
 
     // 5. نظام تسجيل الدخول وإنشاء حساب
@@ -552,12 +552,12 @@
             listContainer.innerHTML += `
                 <div class="checkout-item">
                     <span class="checkout-item-name">${p.name} <span class="checkout-item-qty">× ${item.quantity}</span></span>
-                    <span class="checkout-item-price">${itemTotal} ر.س</span>
+                    <span class="checkout-item-price">${itemTotal} شيكل</span>
                 </div>
             `;
         });
 
-        totalContainer.textContent = `${total} ر.س`;
+        totalContainer.textContent = `${total} شيكل`;
     }
 
     function handleCheckoutSubmit(e) {
@@ -608,10 +608,10 @@
         messageText += `*المنتجات المطلوبة:*\n`;
         
         savedOrder.items.forEach((item, idx) => {
-            messageText += `${idx + 1}. ${item.name} (الكمية: ${item.quantity}) - السعر: ${item.price * item.quantity} ر.س\n`;
+            messageText += `${idx + 1}. ${item.name} (الكمية: ${item.quantity}) - السعر: ${item.price * item.quantity} شيكل\n`;
         });
         
-        messageText += `\n*إجمالي المبلغ:* ${savedOrder.total} ر.س\n\n`;
+        messageText += `\n*إجمالي المبلغ:* ${savedOrder.total} شيكل\n\n`;
         messageText += `يرجى مراجعة وتجهيز الطلب. شكراً لكم!`;
 
         // رقم الهاتف المستهدف للواتساب
@@ -666,7 +666,7 @@
                 itemsHtml += `
                     <div class="order-item-row">
                         <span>${item.name} <strong>× ${item.quantity}</strong></span>
-                        <span>${(item.price * item.quantity)} ر.س</span>
+                        <span>${(item.price * item.quantity)} شيكل</span>
                     </div>
                 `;
             });
@@ -685,7 +685,7 @@
                     </div>
                     <div class="order-total-row">
                         <span>الإجمالي</span>
-                        <span>${o.total} ر.س</span>
+                        <span>${o.total} شيكل</span>
                     </div>
                 </div>
             `;

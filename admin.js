@@ -120,7 +120,7 @@
             .reduce((sum, o) => sum + o.total, 0);
 
         // تحديث الأرقام في الواجهة
-        document.getElementById('stat-total-sales').textContent = totalSales.toLocaleString() + ' ر.س';
+        document.getElementById('stat-total-sales').textContent = totalSales.toLocaleString() + ' شيكل';
         document.getElementById('stat-total-orders').textContent = totalOrders;
         document.getElementById('stat-total-products').textContent = totalProducts;
         document.getElementById('stat-total-customers').textContent = customersCount;
@@ -147,7 +147,7 @@
                             <td><strong>${o.orderNumber}</strong></td>
                             <td>${o.customerName}</td>
                             <td>${dateStr}</td>
-                            <td>${o.total} ر.س</td>
+                            <td>${o.total} شيكل</td>
                             <td><span class="order-status ${statusClass}">${statusStr}</span></td>
                         </tr>
                     `;
@@ -182,7 +182,7 @@
             const pct = (sale / maxVal) * 80; // النسبة من الارتفاع الأقصى
             chartWrapper.innerHTML += `
                 <div class="chart-bar-wrapper">
-                    <div class="chart-bar" style="height: ${pct}%" data-value="${sale} ر.س"></div>
+                    <div class="chart-bar" style="height: ${pct}%" data-value="${sale} شيكل"></div>
                     <div class="chart-label">${days[i]}</div>
                 </div>
             `;
@@ -211,7 +211,7 @@
                 <tr>
                     <td><img src="${p.image}" class="thumbnail-cell" alt="${p.name}" onerror="this.src='https://placehold.co/100x100?text=No+Image'"></td>
                     <td><strong>${p.name}</strong></td>
-                    <td>${p.price} ر.س</td>
+                    <td>${p.price} شيكل</td>
                     <td>${catName}</td>
                     <td>${p.stock || 0}</td>
                     <td><p style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.description}</p></td>
@@ -464,7 +464,7 @@
                     </td>
                     <td>${dateStr}</td>
                     <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${itemsStr}">${itemsStr}</td>
-                    <td><strong>${o.total} ر.س</strong></td>
+                    <td><strong>${o.total} شيكل</strong></td>
                     <td>
                         <select class="filter-select" style="padding: 6px 12px; min-width: auto; font-size: 13px;" onchange="admin.changeOrderStatus('${o.id}', this.value)">
                             <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>قيد الانتظار</option>
@@ -522,12 +522,12 @@
                         <strong>${item.name}</strong>
                         <span style="color: var(--text-muted); margin-right: 8px;">× ${item.quantity}</span>
                     </div>
-                    <div>${(item.price * item.quantity)} ر.س</div>
+                    <div>${(item.price * item.quantity)} شيكل</div>
                 </div>
             `;
         });
 
-        document.getElementById('modal-order-total').textContent = `${o.total} ر.س`;
+        document.getElementById('modal-order-total').textContent = `${o.total} شيكل`;
         document.getElementById('admin-order-modal').classList.add('active');
     }
 
