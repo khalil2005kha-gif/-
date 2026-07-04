@@ -600,7 +600,7 @@
         const savedOrder = window.db.saveOrder(newOrder);
 
         // إنشاء نص رسالة الواتساب للتواصل المباشر مع البائع
-        let messageText = `*طلب جديد من إمباير ستور 💎*\n\n`;
+        let messageText = `*طلب جديد من متجر فيكسو (Vexo) 💎*\n\n`;
         messageText += `*رقم الطلب:* ${savedOrder.orderNumber}\n`;
         messageText += `*الاسم:* ${savedOrder.customerName}\n`;
         messageText += `*الجوال:* ${savedOrder.phone}\n`;
@@ -765,8 +765,8 @@
         if (simulatedCodeEl) simulatedCodeEl.textContent = recoveryCode;
 
         // فتح جيميل لإنشاء مسودة بالرمز وإرسالها للعميل نفسه
-        const subject = encodeURIComponent("رمز استعادة كلمة المرور - إمباير ستور");
-        const body = encodeURIComponent(`مرحباً،\n\nلقد طلبت استعادة كلمة المرور لمتجر إمباير ستور.\nرمز التحقق الخاص بك هو: ${recoveryCode}\n\nيرجى إدخال هذا الرمز في الموقع للمتابعة وتعيين كلمة مرور جديدة.`);
+        const subject = encodeURIComponent("رمز استعادة كلمة المرور - فيكسو (Vexo)");
+        const body = encodeURIComponent(`مرحباً،\n\nلقد طلبت استعادة كلمة المرور لمتجر فيكسو (Vexo).\nرمز التحقق الخاص بك هو: ${recoveryCode}\n\nيرجى إدخال هذا الرمز في الموقع للمتابعة وتعيين كلمة مرور جديدة.`);
         const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${subject}&body=${body}`;
         
         // فتح جيميل في علامة تبويب جديدة

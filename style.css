@@ -4,12 +4,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Tajawal:wght@400;500;700;900&display=swap');
 
 :root {
-    /* لوحة الألوان الأساسية */
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-light: #e0e7ff;
-    --accent: #d946ef;
-    --accent-hover: #c084fc;
+    /* لوحة الألوان الأساسية - الهوية البصرية بنفسجي وأحمر */
+    --primary: #7c3aed; /* بنفسجي للشعار */
+    --primary-hover: #6d28d9;
+    --primary-light: #f5f3ff;
+    --accent: #ef4444; /* أحمر للشعار */
+    --accent-hover: #dc2626;
     
     /* درجات الخلفيات والأسطح */
     --bg-app: #f8fafc;
@@ -122,12 +122,24 @@ header {
     font-family: var(--font-tajawal);
     font-size: 24px;
     font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.logo-text {
     background: linear-gradient(135deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-weight: 900;
+}
+
+.logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
 }
 
 .nav-links {
@@ -200,7 +212,7 @@ header {
 }
 
 .btn-primary-header {
-    background: linear-gradient(135deg, var(--primary), #4f46e5);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
     color: white;
     border: none;
     padding: 10px 20px;
@@ -208,7 +220,7 @@ header {
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
     transition: all var(--transition-fast);
     display: flex;
     align-items: center;
@@ -217,7 +229,7 @@ header {
 
 .btn-primary-header:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.3);
 }
 
 /* --- الصفحات الرئيسية (SPA Screens) --- */
@@ -233,7 +245,7 @@ header {
 
 /* --- شاشة المتجر الرئيسي (Home Screen) --- */
 .hero-section {
-    background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 100%);
+    background: linear-gradient(135deg, #f5f3ff 0%, #fee2e2 100%);
     padding: 60px 20px;
     border-radius: 0 0 40px 40px;
     margin-bottom: 40px;
@@ -241,7 +253,7 @@ header {
     overflow: hidden;
 }
 .dark-mode .hero-section {
-    background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
+    background: linear-gradient(135deg, #2e1065 0%, #4c0519 100%);
 }
 
 .hero-content {
@@ -281,13 +293,13 @@ header {
     border-radius: var(--radius-md);
     border: none;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
     transition: all var(--transition-fast);
 }
 
 .btn-hero:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
 }
 
 .hero-image-container {
@@ -402,7 +414,7 @@ header {
 
 .search-input-wrapper input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
 }
 
 .search-icon {
@@ -450,7 +462,7 @@ header {
 .product-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-lg);
-    border-color: rgba(99, 102, 241, 0.2);
+    border-color: rgba(124, 58, 237, 0.2);
 }
 
 .product-badge {
@@ -982,7 +994,7 @@ header {
 
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .btn-submit {
@@ -1505,7 +1517,7 @@ header {
 }
 
 .admin-table tbody tr:hover {
-    background-color: rgba(99, 102, 241, 0.02);
+    background-color: rgba(124, 58, 237, 0.02);
 }
 
 .thumbnail-cell {
@@ -1538,7 +1550,7 @@ header {
 
 .btn-table-edit {
     color: var(--primary);
-    border-color: rgba(99, 102, 241, 0.2);
+    border-color: rgba(124, 58, 237, 0.2);
 }
 .btn-table-edit:hover {
     background-color: var(--primary-light);
@@ -1626,3 +1638,125 @@ footer {
     color: var(--text-muted);
     font-size: 13px;
 }
+
+/* --- تحسين التجاوب للهواتف والأجهزة اللوحية والحواسيب --- */
+
+/* الأجهزة اللوحية والموبايل (شاشات أقل من 992px) */
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .hero-image-container {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+        aspect-ratio: 16/10;
+        transform: rotate(0deg);
+    }
+    .hero-title {
+        font-size: 32px;
+    }
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    
+    /* لوحة التحكم الفرعية للمدير */
+    .admin-main {
+        padding: 20px;
+    }
+    .admin-row-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* الموبايل والشاشات الصغيرة (شاشات أقل من 768px) */
+@media (max-width: 768px) {
+    .header-content {
+        padding: 0 12px;
+    }
+    .logo-text {
+        font-size: 20px;
+    }
+    .logo-img {
+        height: 38px;
+    }
+    .nav-links {
+        gap: 12px;
+    }
+    .nav-links li a {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    .header-actions {
+        gap: 10px;
+    }
+    #auth-action-container {
+        gap: 10px;
+    }
+    .btn-primary-header {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+    
+    /* شبكات عرض المنتجات والأقسام */
+    .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+    }
+    .category-card {
+        padding: 16px;
+    }
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+    }
+    .product-card {
+        border-radius: var(--radius-md);
+    }
+    .product-img-container {
+        height: 180px;
+    }
+    .product-info {
+        padding: 14px;
+    }
+    .product-name {
+        font-size: 14px;
+        height: 38px;
+    }
+    .product-description {
+        font-size: 12px;
+        height: 36px;
+    }
+}
+
+/* شاشات الموبايل الصغيرة جداً (شاشات أقل من 480px) */
+@media (max-width: 480px) {
+    .header-content {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px;
+        justify-content: center;
+        gap: 10px;
+    }
+    header {
+        height: auto;
+    }
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        border-top: 1px solid var(--border-color);
+        padding-top: 8px;
+        margin-top: 4px;
+    }
+    .logo {
+        order: 1;
+    }
+    .header-actions {
+        order: 2;
+    }
+}
+
+
