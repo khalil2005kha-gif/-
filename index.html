@@ -211,6 +211,42 @@
                             <label for="cust-address">عنوان التوصيل بالتفصيل *</label>
                             <textarea id="cust-address" rows="3" required placeholder="مثال: الرياض، حي الياسمين، شارع الملقا، مبنى رقم 4"></textarea>
                         </div>
+
+                        <!-- اختيار طريقة الدفع والتحويل -->
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="font-weight: 700; margin-bottom: 8px; display: block;">اختر طريقة الدفع (التحويل للرقم 0593425031) *</label>
+                            <div class="payment-methods-grid">
+                                <div class="payment-method-card active" id="pay-card-jawwal" onclick="storeApp.selectPaymentMethod('jawwal-pay')">
+                                    <span class="pay-icon">📱</span>
+                                    <span style="font-weight: 700; font-size: 14px;">جوّال بي (Jawwal Pay)</span>
+                                    <span class="pay-desc">حوالة سريعة للرقم 0593425031</span>
+                                </div>
+                                <div class="payment-method-card" id="pay-card-palpay" onclick="storeApp.selectPaymentMethod('palpay')">
+                                    <span class="pay-icon">💳</span>
+                                    <span style="font-weight: 700; font-size: 14px;">بال بي (PalPay)</span>
+                                    <span class="pay-desc">حوالة سريعة للرقم 0593425031</span>
+                                </div>
+                                <div class="payment-method-card" id="pay-card-bank" onclick="storeApp.selectPaymentMethod('bank')">
+                                    <span class="pay-icon">🏦</span>
+                                    <span style="font-weight: 700; font-size: 14px;">محفظة البنك (BoP)</span>
+                                    <span class="pay-desc">تحويل للرقم 0593425031</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- إرفاق صورة وصل الدفع -->
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="receipt-file" style="font-weight: 700; margin-bottom: 8px;">إرفاق صورة وصل التحويل/الدفع *</label>
+                            <div class="image-preview-box" id="receipt-preview-box" onclick="document.getElementById('receipt-file').click()">
+                                <div class="image-preview-placeholder" id="receipt-placeholder">
+                                    <span>📸</span>
+                                    <span>اضغط هنا لرفع/تصوير صورة وصل الدفع</span>
+                                </div>
+                                <img id="receipt-image-preview" src="" alt="معاينة الوصل" style="display: none; max-height: 140px; object-fit: contain;">
+                            </div>
+                            <input type="file" id="receipt-file" accept="image/*" style="display: none;" required>
+                        </div>
+
                         <button type="submit" class="btn-submit" style="width: 100%;">تأكيد وإتمام الشراء بنجاح</button>
                     </form>
                 </div>
@@ -587,6 +623,20 @@
                     <div><strong>الاسم الكامل:</strong> <span id="modal-cust-name">--</span></div>
                     <div><strong>رقم الجوال:</strong> <span id="modal-cust-phone">--</span></div>
                     <div><strong>عنوان الشحن:</strong> <span id="modal-cust-address">--</span></div>
+                </div>
+            </div>
+
+            <!-- معلومات الدفع والتحويل -->
+            <div class="admin-panel-card" style="margin-bottom: 20px; background-color: var(--bg-app); border: none;">
+                <h4 style="font-weight: 700; margin-bottom: 10px; font-size: 14px;">بيانات الدفع والتحويل المالي</h4>
+                <div style="font-size: 13px; display: flex; flex-direction: column; gap: 8px;">
+                    <div><strong>طريقة التحويل:</strong> <span id="modal-order-pay-method">--</span></div>
+                    <div>
+                        <strong>صورة وصل الدفع:</strong>
+                        <div style="margin-top: 8px; text-align: center; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 8px; background: white;">
+                            <img id="modal-order-receipt-img" src="" alt="وصل الدفع" style="max-width: 100%; max-height: 200px; border-radius: var(--radius-sm); cursor: pointer; object-fit: contain;" onclick="window.open(this.src)">
+                        </div>
+                    </div>
                 </div>
             </div>
 

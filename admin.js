@@ -512,6 +512,22 @@
         document.getElementById('modal-cust-phone').textContent = o.phone;
         document.getElementById('modal-cust-address').textContent = o.shippingAddress;
 
+        // بيانات التحويل والدفع
+        let payMethodStr = "جوّال بي (Jawwal Pay)";
+        if (o.paymentMethod === 'palpay') payMethodStr = "بال بي (PalPay)";
+        else if (o.paymentMethod === 'bank') payMethodStr = "محفظة البنك (BoP)";
+        
+        document.getElementById('modal-order-pay-method').textContent = payMethodStr;
+        
+        const receiptImg = document.getElementById('modal-order-receipt-img');
+        if (o.receiptImage) {
+            receiptImg.src = o.receiptImage;
+            receiptImg.style.display = 'block';
+        } else {
+            receiptImg.src = '';
+            receiptImg.style.display = 'none';
+        }
+
         // المنتجات المطلوبة
         const itemsList = document.getElementById('modal-order-items-list');
         itemsList.innerHTML = '';

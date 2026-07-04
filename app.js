@@ -12,6 +12,10 @@
     let recoveryEmail = '';
     let recoveryCode = '';
 
+    // حالة الدفع والتحويل
+    let selectedPaymentMethod = 'jawwal-pay';
+    let receiptImageBase64 = '';
+
     // تهيئة التطبيق
     function init() {
         loadCart();
@@ -178,6 +182,30 @@
         const checkoutForm = document.getElementById('checkout-form-el');
         if (checkoutForm) {
             checkoutForm.addEventListener('submit', handleCheckoutSubmit);
+        }
+
+        // معالجة رفع ومعاينة وصل الدفع
+        const receiptInput = document.getElementById('receipt-file');
+        const receiptPreview = document.getElementById('receipt-image-preview');
+        const receiptPlaceholder = document.getElementById('receipt-placeholder');
+        if (receiptInput) {
+            receiptInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        receiptImageBase64 = event.target.result;
+                        if (receiptPreview) {
+                            receiptPreview.src = receiptImageBase64;
+                            receiptPreview.style.display = 'block';
+                        }
+                        if (receiptPlaceholder) {
+                            receiptPlaceholder.style.display = 'none';
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
         }
     }
 
@@ -574,6 +602,11 @@
             return;
         }
 
+        if (!receiptImageBase64) {
+            alert("الرجاء إرفاق صورة وصل التحويل المالي (الدفعة) لإتمام الطلب بنجاح.");
+            return;
+        }
+
         const products = window.db.getProducts();
         let total = 0;
         const items = cart.map(item => {
@@ -593,11 +626,18 @@
             phone: phone,
             shippingAddress: address,
             items: items,
-            total: total
+            total: total,
+            paymentMethod: selectedPaymentMethod,
+            receiptImage: receiptImageBase64
         };
 
         // حفظ الطلب
         const savedOrder = window.db.saveOrder(newOrder);
+
+        // صياغة اسم طريقة الدفع للواتساب
+        let payMethodStr = "جوّال بي (Jawwal Pay)";
+        if (selectedPaymentMethod === 'palpay') payMethodStr = "بال بي (PalPay)";
+        else if (selectedPaymentMethod === 'bank') payMethodStr = "محفظة البنك (BoP)";
 
         // إنشاء نص رسالة الواتساب للتواصل المباشر مع البائع
         let messageText = `*طلب جديد من متجر فيكسو (Vexo) 💎*\n\n`;
@@ -605,6 +645,8 @@
         messageText += `*الاسم:* ${savedOrder.customerName}\n`;
         messageText += `*الجوال:* ${savedOrder.phone}\n`;
         messageText += `*العنوان:* ${savedOrder.shippingAddress}\n\n`;
+        messageText += `*طريقة الدفع:* ${payMethodStr}\n`;
+        messageText += `*حالة الوصل:* مرفق (تم حفظه في لوحة التحكم)\n\n`;
         messageText += `*المنتجات المطلوبة:*\n`;
         
         savedOrder.items.forEach((item, idx) => {
@@ -612,7 +654,7 @@
         });
         
         messageText += `\n*إجمالي المبلغ:* ${savedOrder.total} شيكل\n\n`;
-        messageText += `يرجى مراجعة وتجهيز الطلب. شكراً لكم!`;
+        messageText += `*يرجى تزويد البائع بصورة وصل الدفع المرفقة لإثبات وتأكيد عملية التحويل.*`;
 
         // رقم الهاتف المستهدف للواتساب
         const whatsappNumber = '972593425031';
@@ -621,12 +663,35 @@
         // فتح الواتساب في نافذة جديدة لإرسال الرسالة
         window.open(waUrl, '_blank');
 
-        // مسح السلة وتحديثها
+        // إعادة ضبط السلة والدفع
         cart = [];
         saveCart();
+        receiptImageBase64 = '';
+        selectedPaymentMethod = 'jawwal-pay';
+        
+        // إعادة ضبط نموذج الرفع
+        const receiptPreview = document.getElementById('receipt-image-preview');
+        const receiptPlaceholder = document.getElementById('receipt-placeholder');
+        if (receiptPreview) receiptPreview.style.display = 'none';
+        if (receiptPlaceholder) receiptPlaceholder.style.display = 'flex';
+        
+        const formEl = document.getElementById('checkout-form-el');
+        if (formEl) formEl.reset();
 
-        alert("تم إرسال طلبك بنجاح! تم حفظ الطلب في لوحة التحكم وجاري تحويلك لواتساب لتأكيد الطلب مع البائع.");
+        alert("تم إرسال طلبك بنجاح! تم حفظ الطلب وجاري تحويلك لواتساب لتأكيد الطلب وإرسال صورة الوصل للبائع.");
         window.location.hash = '#account-dashboard';
+    }
+
+    function selectPaymentMethod(method) {
+        selectedPaymentMethod = method;
+        document.querySelectorAll('.payment-method-card').forEach(card => card.classList.remove('active'));
+        
+        let cardId = 'pay-card-jawwal';
+        if (method === 'palpay') cardId = 'pay-card-palpay';
+        else if (method === 'bank') cardId = 'pay-card-bank';
+        
+        const activeCard = document.getElementById(cardId);
+        if (activeCard) activeCard.classList.add('active');
     }
 
     // 7. لوحة تحكم حساب العميل
@@ -858,7 +923,8 @@
         showForgotPasswordForm,
         sendResetCode,
         verifyResetCode,
-        resetPassword
+        resetPassword,
+        selectPaymentMethod
     };
 
     // تشغيل التطبيق بعد تحميل الدوم
