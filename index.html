@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="متجر إلكتروني متكامل باللغة العربية يتيح للعملاء شراء أحدث الأجهزة الفاخرة ويحتوي على لوحة تحكم كاملة للإدارة لإضافة المنتجات والأقسام وتعديلها.">
     <title>متجر فيكسو (Vexo) الإلكتروني - بوابة التسوق الفاخرة</title>
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 
@@ -42,52 +42,58 @@
         <!-- ==================== 1. شاشة المتجر الرئيسي والكتالوج ==================== -->
         <main class="screen active" id="home-screen">
             <!-- قسم الهيرو (Hero Section) -->
-            <!-- سلايدر البنرات المتحرك (Banner Carousel) -->
-            <section class="slider-section">
-                <div class="slider-container" id="main-slider">
-                    <!-- سلايد 1 (الرياضة والصحة - يطابق طلب المستخدم) -->
-                    <div class="slide active">
-                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200" alt="منتجات رياضية وصحة">
-                        <div class="slide-overlay">
-                            <div class="slide-overlay-box">
-                                <h2 class="slide-title">أجسام الصيف، يصنعها الشتاء</h2>
-                                <p class="slide-subtitle">اكتشف منتجات الصحة والرياضة</p>
-                                <button class="btn-slide" onclick="window.location.hash='#shop'">ابدأ اليوم</button>
+            <!-- سلايدر البنرات التفاعلي (Content Hero Slider) -->
+            <section class="hero-slider-section">
+                <div class="hero-slider-container" id="main-hero-slider">
+                    <!-- سلايد 1 (تسوق الفخامة والجودة - يطابق الصورة الأصلية) -->
+                    <div class="hero-slide active">
+                        <div class="hero-slide-content">
+                            <div class="hero-slide-text">
+                                <h1 class="hero-slide-title">تسوق الفخامة والجودة من مكان واحد</h1>
+                                <p class="hero-slide-subtitle">اكتشف تشكيلتنا الحصرية من الإلكترونيات، الساعات، والأحذية الرياضية الفاخرة مع خدمة التوصيل السريع والدفع الآمن.</p>
+                                <button class="btn-hero-slide" onclick="window.location.hash='#shop'">تسوّق الآن ➔</button>
+                            </div>
+                            <div class="hero-slide-image">
+                                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="تسوق الفخامة">
                             </div>
                         </div>
                     </div>
-                    <!-- سلايد 2 (التقنية والإلكترونيات) -->
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&q=80&w=1200" alt="إلكترونيات وأجهزة ذكية">
-                        <div class="slide-overlay">
-                            <div class="slide-overlay-box">
-                                <h2 class="slide-title">عالم التقنية بين يديك</h2>
-                                <p class="slide-subtitle">أحدث الأجهزة الإلكترونية والذكية بأسعار منافسة</p>
-                                <button class="btn-slide" onclick="storeApp.selectCategory('electronics')">عرض الإلكترونيات</button>
+                    <!-- سلايد 2 (أحذية رياضية فاخرة) -->
+                    <div class="hero-slide">
+                        <div class="hero-slide-content">
+                            <div class="hero-slide-text">
+                                <h1 class="hero-slide-title">أحذية رياضية تجمع الراحة والأداء</h1>
+                                <p class="hero-slide-subtitle">ارتقِ بتمارينك وأسلوب حياتك مع تشكيلة الأحذية الأصلية ذات التصميم الطبي والمظهر العصري.</p>
+                                <button class="btn-hero-slide" onclick="storeApp.selectCategory('shoes')">عرض الأحذية ➔</button>
+                            </div>
+                            <div class="hero-slide-image">
+                                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800" alt="أحذية رياضية">
                             </div>
                         </div>
                     </div>
-                    <!-- سلايد 3 (الساعات الفاخرة) -->
-                    <div class="slide">
-                        <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=1200" alt="ساعات فاخرة وأنيقة">
-                        <div class="slide-overlay">
-                            <div class="slide-overlay-box">
-                                <h2 class="slide-title">الأناقة والفخامة في معصمك</h2>
-                                <p class="slide-subtitle">ساعات فاخرة تضيف لإطلالتك لمسة فريدة</p>
-                                <button class="btn-slide" onclick="storeApp.selectCategory('watches')">تسوق الساعات</button>
+                    <!-- سلايد 3 (ساعات راقية) -->
+                    <div class="hero-slide">
+                        <div class="hero-slide-content">
+                            <div class="hero-slide-text">
+                                <h1 class="hero-slide-title">الفخامة والأناقة في معصمك</h1>
+                                <p class="hero-slide-subtitle">تصفح موديلات فريدة من الساعات الرجالية والنسائية الفاخرة التي تلائم جميع مناسباتك الراقية.</p>
+                                <button class="btn-hero-slide" onclick="storeApp.selectCategory('watches')">تسوق الساعات ➔</button>
+                            </div>
+                            <div class="hero-slide-image">
+                                <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=800" alt="ساعات فاخرة">
                             </div>
                         </div>
                     </div>
 
-                    <!-- أزرار التنقل الدائرية -->
-                    <button class="slider-btn prev-btn" onclick="storeApp.prevSlide()" title="السابق">❮</button>
-                    <button class="slider-btn next-btn" onclick="storeApp.nextSlide()" title="التالي">❯</button>
+                    <!-- أزرار التنقل بالأسهم -->
+                    <button class="hero-slider-btn prev-btn" onclick="storeApp.prevSlide()" title="السابق">❮</button>
+                    <button class="hero-slider-btn next-btn" onclick="storeApp.nextSlide()" title="التالي">❯</button>
 
                     <!-- نقاط المؤشر السفلية -->
-                    <div class="slider-dots" id="slider-dots-container">
-                        <span class="dot active" onclick="storeApp.goToSlide(0)"></span>
-                        <span class="dot" onclick="storeApp.goToSlide(1)"></span>
-                        <span class="dot" onclick="storeApp.goToSlide(2)"></span>
+                    <div class="hero-slider-dots" id="hero-slider-dots-container">
+                        <span class="hero-dot active" onclick="storeApp.goToSlide(0)"></span>
+                        <span class="hero-dot" onclick="storeApp.goToSlide(1)"></span>
+                        <span class="hero-dot" onclick="storeApp.goToSlide(2)"></span>
                     </div>
                 </div>
             </section>
@@ -726,8 +732,8 @@
     </div>
 
     <!-- تحميل سكربتات التطبيق بالترتيب المناسب -->
-    <script src="db.js?v=7"></script>
-    <script src="admin.js?v=7"></script>
-    <script src="app.js?v=7"></script>
+    <script src="db.js?v=8"></script>
+    <script src="admin.js?v=8"></script>
+    <script src="app.js?v=8"></script>
 </body>
 </html>
