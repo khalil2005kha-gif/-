@@ -16,6 +16,10 @@
     let selectedPaymentMethod = 'jawwal-pay';
     let receiptImageBase64 = '';
 
+    // حالة السلايدر
+    let currentSlide = 0;
+    let sliderInterval = null;
+
     // تهيئة التطبيق
     function init() {
         loadCart();
@@ -47,6 +51,58 @@
     // إعداد التوجيه (Routing) بناءً على الهاش (#)
     function setupRouting() {
         window.addEventListener('hashchange', handleHashChange);
+    }
+
+    // --- وظائف سلايدر البنرات المتحرك ---
+    function startSliderAutoplay() {
+        stopSliderAutoplay();
+        sliderInterval = setInterval(nextSlide, 5000); // كل 5 ثوانٍ
+    }
+
+    function stopSliderAutoplay() {
+        if (sliderInterval) {
+            clearInterval(sliderInterval);
+            sliderInterval = null;
+        }
+    }
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        if (slides.length === 0) return;
+
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        slides.forEach((slide, i) => {
+            if (i === currentSlide) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+
+        dots.forEach((dot, i) => {
+            if (i === currentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+
+    function goToSlide(index) {
+        showSlide(index);
+        startSliderAutoplay(); // تصفير العداد عند التنقل اليدوي
     }
 
     function handleHashChange() {
@@ -112,6 +168,13 @@
             if (window.admin && window.admin.renderAdminSubPage) {
                 window.admin.renderAdminSubPage(subPage);
             }
+        }
+
+        // إدارة التشغيل التلقائي للسلايدر
+        if (hash === '#home' || hash === '#shop') {
+            startSliderAutoplay();
+        } else {
+            stopSliderAutoplay();
         }
         
         renderHeader();
@@ -285,6 +348,10 @@
         selectedCategory = catId;
         renderCategories();
         renderCatalog();
+        
+        // التمرير بسلاسة لقسم الكتالوج
+        const catalogSec = document.getElementById('catalog-section');
+        if (catalogSec) catalogSec.scrollIntoView({ behavior: 'smooth' });
     }
 
     // 2. رسم كتالوج المنتجات
@@ -928,7 +995,10 @@
         sendResetCode,
         verifyResetCode,
         resetPassword,
-        selectPaymentMethod
+        selectPaymentMethod,
+        nextSlide,
+        prevSlide,
+        goToSlide
     };
 
     // تشغيل التطبيق بعد تحميل الدوم

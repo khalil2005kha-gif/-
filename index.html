@@ -42,15 +42,52 @@
         <!-- ==================== 1. شاشة المتجر الرئيسي والكتالوج ==================== -->
         <main class="screen active" id="home-screen">
             <!-- قسم الهيرو (Hero Section) -->
-            <section class="hero-section">
-                <div class="hero-content">
-                    <div class="hero-text">
-                        <h1 class="hero-title">تسوق الفخامة والجودة من مكان واحد</h1>
-                        <p class="hero-subtitle">اكتشف تشكيلتنا الحصرية من الإلكترونيات، الساعات، والأحذية الرياضية الفاخرة مع خدمة التوصيل السريع والدفع الآمن.</p>
-                        <button class="btn-hero" onclick="window.location.hash='#shop'">تسوّق الآن ➔</button>
+            <!-- سلايدر البنرات المتحرك (Banner Carousel) -->
+            <section class="slider-section">
+                <div class="slider-container" id="main-slider">
+                    <!-- سلايد 1 (الرياضة والصحة - يطابق طلب المستخدم) -->
+                    <div class="slide active">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1200" alt="منتجات رياضية وصحة">
+                        <div class="slide-overlay">
+                            <div class="slide-overlay-box">
+                                <h2 class="slide-title">أجسام الصيف، يصنعها الشتاء</h2>
+                                <p class="slide-subtitle">اكتشف منتجات الصحة والرياضة</p>
+                                <button class="btn-slide" onclick="window.location.hash='#shop'">ابدأ اليوم</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hero-image-container">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="تسوق إلكتروني">
+                    <!-- سلايد 2 (التقنية والإلكترونيات) -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&q=80&w=1200" alt="إلكترونيات وأجهزة ذكية">
+                        <div class="slide-overlay">
+                            <div class="slide-overlay-box">
+                                <h2 class="slide-title">عالم التقنية بين يديك</h2>
+                                <p class="slide-subtitle">أحدث الأجهزة الإلكترونية والذكية بأسعار منافسة</p>
+                                <button class="btn-slide" onclick="storeApp.selectCategory('electronics')">عرض الإلكترونيات</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- سلايد 3 (الساعات الفاخرة) -->
+                    <div class="slide">
+                        <img src="https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&q=80&w=1200" alt="ساعات فاخرة وأنيقة">
+                        <div class="slide-overlay">
+                            <div class="slide-overlay-box">
+                                <h2 class="slide-title">الأناقة والفخامة في معصمك</h2>
+                                <p class="slide-subtitle">ساعات فاخرة تضيف لإطلالتك لمسة فريدة</p>
+                                <button class="btn-slide" onclick="storeApp.selectCategory('watches')">تسوق الساعات</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- أزرار التنقل الدائرية -->
+                    <button class="slider-btn prev-btn" onclick="storeApp.prevSlide()" title="السابق">❮</button>
+                    <button class="slider-btn next-btn" onclick="storeApp.nextSlide()" title="التالي">❯</button>
+
+                    <!-- نقاط المؤشر السفلية -->
+                    <div class="slider-dots" id="slider-dots-container">
+                        <span class="dot active" onclick="storeApp.goToSlide(0)"></span>
+                        <span class="dot" onclick="storeApp.goToSlide(1)"></span>
+                        <span class="dot" onclick="storeApp.goToSlide(2)"></span>
                     </div>
                 </div>
             </section>
