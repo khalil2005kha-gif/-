@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="متجر إلكتروني متكامل باللغة العربية يتيح للعملاء شراء أحدث الأجهزة الفاخرة ويحتوي على لوحة تحكم كاملة للإدارة لإضافة المنتجات والأقسام وتعديلها.">
     <title>متجر فيكسو (Vexo) الإلكتروني - بوابة التسوق الفاخرة</title>
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -277,7 +277,12 @@
                     </div>
                     <ul class="dashboard-menu">
                         <li class="active"><a href="#account-dashboard">📦 طلباتي السابقة</a></li>
-                        <li><a href="#home" onclick="storeApp.logoutUser()">🚪 تسجيل الخروج</a></li>
+                        <li><a href="#home" onclick="storeApp.logoutUser()" style="display: flex; align-items: center; gap: 10px;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                <path d="M10 4h9v16h-9M14 12H3M7 8l-5 4 5 4" />
+                            </svg>
+                            <span>تسجيل الخروج</span>
+                        </a></li>
                     </ul>
                 </aside>
 
@@ -317,7 +322,12 @@
                         <li><a href="#admin-categories">📁 إدارة الأقسام</a></li>
                         <li><a href="#admin-orders">📦 إدارة الطلبات</a></li>
                         <li><a href="#home">🌐 عرض المتجر</a></li>
-                        <li><a href="#home" onclick="storeApp.logoutUser()">🚪 تسجيل الخروج</a></li>
+                        <li><a href="#home" onclick="storeApp.logoutUser()" style="display: flex; align-items: center; gap: 10px;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                                <path d="M10 4h9v16h-9M14 12H3M7 8l-5 4 5 4" />
+                            </svg>
+                            <span>تسجيل الخروج</span>
+                        </a></li>
                     </ul>
                 </aside>
 
@@ -679,8 +689,8 @@
     </div>
 
     <!-- تحميل سكربتات التطبيق بالترتيب المناسب -->
-    <script src="db.js?v=4"></script>
-    <script src="admin.js?v=4"></script>
-    <script src="app.js?v=4"></script>
+    <script src="db.js?v=5"></script>
+    <script src="admin.js?v=5"></script>
+    <script src="app.js?v=5"></script>
 </body>
 </html>

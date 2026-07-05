@@ -222,7 +222,9 @@
                         🛠️ لوحة التحكم
                     </a>
                     <button class="btn-icon" onclick="storeApp.logoutUser()" title="تسجيل الخروج">
-                        🚪
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                            <path d="M10 4h9v16h-9M14 12H3M7 8l-5 4 5 4" />
+                        </svg>
                     </button>
                 `;
             } else {
@@ -231,7 +233,9 @@
                         👤 حسابي
                     </a>
                     <button class="btn-icon" onclick="storeApp.logoutUser()" title="تسجيل الخروج">
-                        🚪
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+                            <path d="M10 4h9v16h-9M14 12H3M7 8l-5 4 5 4" />
+                        </svg>
                     </button>
                 `;
             }
