@@ -1,7 +1,31 @@
 // js/db.js
-// إدارة قاعدة البيانات المحلية باستخدام localStorage
+// إدارة قاعدة البيانات المحلية باستخدام localStorage مع دعم المزامنة السحابية Firebase Firestore
 
 (function() {
+    // إعدادات قاعدة البيانات السحابية Firebase (Firestore)
+    // قم بتبديل القيم أدناه بالقيم الخاصة بمشروعك في Firebase لتفعيل المزامنة السحابية فوراً.
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    let fs = null;
+    
+    // محاولة تهيئة Firebase
+    if (typeof firebase !== 'undefined' && firebaseConfig.apiKey !== "YOUR_API_KEY") {
+        try {
+            firebase.initializeApp(firebaseConfig);
+            fs = firebase.firestore();
+            console.log("Firebase Firestore initialized successfully.");
+        } catch (err) {
+            console.error("Failed to initialize Firebase:", err);
+        }
+    }
+
     // المفاتيح المستخدمة في localStorage
     const KEYS = {
         PRODUCTS: 'store_products',
@@ -114,11 +138,8 @@
         get(KEYS.CATEGORIES, DEFAULT_CATEGORIES);
         get(KEYS.PRODUCTS, DEFAULT_PRODUCTS);
         
-        // جلب المستخدمين وتحديثهم لضمان وجود حساب المدير 2005 وإزالة admin
         let users = get(KEYS.USERS, DEFAULT_USERS);
-        // إزالة الحساب القديم 'admin' إذا كان موجوداً
         users = users.filter(u => u.username !== 'admin');
-        // التأكد من وجود الحساب الجديد '2005'
         if (!users.some(u => u.username === '2005')) {
             users.push({
                 id: "user-admin",
@@ -135,6 +156,98 @@
 
         get(KEYS.ORDERS, []);
         get(KEYS.SESSION, null);
+
+        // إعداد المزامنة السحابية الحية في حال تفعيل Firebase
+        if (fs) {
+            setupFirebaseSync();
+        }
+    }
+
+    // مزامنة البيانات بالوقت الفعلي مع Firebase Firestore
+    function setupFirebaseSync() {
+        // 1. مزامنة المنتجات
+        fs.collection('products').onSnapshot(snapshot => {
+            let products = [];
+            snapshot.forEach(doc => {
+                products.push({ id: doc.id, ...doc.data() });
+            });
+            if (products.length > 0) {
+                set(KEYS.PRODUCTS, products);
+                if (window.storeApp && window.storeApp.renderCatalog) {
+                    window.storeApp.renderCatalog();
+                }
+            }
+        });
+
+        // 2. مزامنة الأقسام
+        fs.collection('categories').onSnapshot(snapshot => {
+            let categories = [];
+            snapshot.forEach(doc => {
+                categories.push({ id: doc.id, ...doc.data() });
+            });
+            if (categories.length > 0) {
+                set(KEYS.CATEGORIES, categories);
+                if (window.storeApp && window.storeApp.renderCategories) {
+                    window.storeApp.renderCategories();
+                }
+            }
+        });
+
+        // 3. مزامنة الطلبات
+        fs.collection('orders').onSnapshot(snapshot => {
+            let orders = [];
+            snapshot.forEach(doc => {
+                orders.push({ id: doc.id, ...doc.data() });
+            });
+            orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+            set(KEYS.ORDERS, orders);
+            if (window.admin && window.admin.renderAdminSubPage) {
+                const hash = window.location.hash || '#home';
+                const subPage = hash.split('-')[1] || 'overview';
+                if (subPage === 'orders' || subPage === 'overview') {
+                    window.admin.renderAdminSubPage(subPage);
+                }
+            }
+        });
+
+        // 4. مزامنة المستخدمين
+        fs.collection('users').onSnapshot(snapshot => {
+            let users = [];
+            snapshot.forEach(doc => {
+                users.push({ id: doc.id, ...doc.data() });
+            });
+            if (users.length > 0) {
+                set(KEYS.USERS, users);
+            }
+        });
+
+        // 5. رفع البيانات الافتراضية إذا كانت السحابة فارغة تماماً (تشغيل أول مرة)
+        fs.collection('products').get().then(snap => {
+            if (snap.empty) {
+                const products = get(KEYS.PRODUCTS, DEFAULT_PRODUCTS);
+                products.forEach(p => {
+                    fs.collection('products').doc(p.id).set(p);
+                });
+            }
+        });
+
+        fs.collection('categories').get().then(snap => {
+            if (snap.empty) {
+                const categories = get(KEYS.CATEGORIES, DEFAULT_CATEGORIES);
+                categories.forEach(c => {
+                    fs.collection('categories').doc(c.id).set(c);
+                });
+            }
+        });
+
+        fs.collection('users').get().then(snap => {
+            if (snap.empty) {
+                const users = get(KEYS.USERS, DEFAULT_USERS);
+                users.forEach(u => {
+                    fs.collection('users').doc(u.id).set(u);
+                });
+            }
+        });
     }
 
     // تصدير واجهة برمجية للتعامل مع البيانات
@@ -155,12 +268,23 @@
                 products.push(product);
             }
             set(KEYS.PRODUCTS, products);
+
+            // حفظ في السحابة Firebase
+            if (fs) {
+                fs.collection('products').doc(product.id).set(product, { merge: true });
+            }
+
             return product;
         },
         deleteProduct: (id) => {
             const products = window.db.getProducts();
             const filtered = products.filter(p => p.id !== id);
             set(KEYS.PRODUCTS, filtered);
+
+            // حذف من السحابة Firebase
+            if (fs) {
+                fs.collection('products').doc(id).delete();
+            }
         },
 
         // --- إدارة الأقسام ---
@@ -177,6 +301,12 @@
                 categories.push(category);
             }
             set(KEYS.CATEGORIES, categories);
+
+            // حفظ في السحابة Firebase
+            if (fs) {
+                fs.collection('categories').doc(category.id).set(category, { merge: true });
+            }
+
             return category;
         },
         deleteCategory: (id) => {
@@ -184,10 +314,20 @@
             const filtered = categories.filter(c => c.id !== id);
             set(KEYS.CATEGORIES, filtered);
             
-            // إزالة المنتجات المرتبطة بهذا القسم أو تعيين قسمها ليكون فارغاً
             const products = window.db.getProducts();
             const updatedProducts = products.map(p => p.categoryId === id ? { ...p, categoryId: '' } : p);
             set(KEYS.PRODUCTS, updatedProducts);
+
+            // حذف من السحابة Firebase
+            if (fs) {
+                fs.collection('categories').doc(id).delete();
+                // تحديث مرجع الأقسام في المنتجات سحابياً
+                products.forEach(p => {
+                    if (p.categoryId === id) {
+                        fs.collection('products').doc(p.id).update({ categoryId: '' });
+                    }
+                });
+            }
         },
 
         // --- إدارة المستخدمين والجلسات ---
@@ -204,6 +344,12 @@
             user.role = user.role || 'customer';
             users.push(user);
             set(KEYS.USERS, users);
+
+            // حفظ في السحابة Firebase
+            if (fs) {
+                fs.collection('users').doc(user.id).set(user);
+            }
+
             return user;
         },
         login: (username, password) => {
@@ -234,8 +380,14 @@
             order.orderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
             order.date = new Date().toISOString();
             order.status = 'pending'; // pending, shipped, delivered
-            orders.unshift(order); // إضافة الطلب الجديد في البداية
+            orders.unshift(order);
             set(KEYS.ORDERS, orders);
+
+            // حفظ في السحابة Firebase
+            if (fs) {
+                fs.collection('orders').doc(order.id).set(order);
+            }
+
             return order;
         },
         updateOrderStatus: (id, status) => {
@@ -244,6 +396,12 @@
             if (idx !== -1) {
                 orders[idx].status = status;
                 set(KEYS.ORDERS, orders);
+
+                // تحديث في السحابة Firebase
+                if (fs) {
+                    fs.collection('orders').doc(id).update({ status: status });
+                }
+
                 return orders[idx];
             }
             throw new Error("الطلب غير موجود");
