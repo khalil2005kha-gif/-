@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://khalil2005kha-gif.github.io/-/sitemap.xml
