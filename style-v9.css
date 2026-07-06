@@ -245,23 +245,28 @@ header {
 }
 
 /* --- شاشة المتجر الرئيسي (Home Screen) --- */
-/* --- سلايدر البنرات المتحرك (Banner Slider) --- */
-.slider-section {
+/* --- سلايدر محتوى الهيرو (Hero Content Slider) --- */
+.hero-slider-section {
     position: relative;
     max-width: 100%;
     margin-bottom: 40px;
+    background: linear-gradient(135deg, #fdf2f8 0%, #f5f3ff 100%);
+    border-radius: 0 0 40px 40px;
+    overflow: hidden;
+}
+.dark-mode .hero-slider-section {
+    background: linear-gradient(135deg, #4c0519 0%, #2e1065 100%);
 }
 
-.slider-container {
+.hero-slider-container {
     position: relative;
     width: 100%;
-    height: 480px;
-    overflow: hidden;
-    border-radius: 0 0 24px 24px;
-    box-shadow: var(--shadow-lg);
+    height: 460px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.slide {
+.hero-slide {
     position: absolute;
     top: 0;
     left: 0;
@@ -269,130 +274,125 @@ header {
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
 }
 
-.slide.active {
+.hero-slide.active {
     opacity: 1;
     visibility: visible;
     z-index: 2;
 }
 
-.slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.slide-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.6) 20%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%);
-    display: flex;
-    flex-direction: column;
+.hero-slide-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    padding: 20px;
-    z-index: 3;
+    width: 100%;
 }
 
-.slide-overlay-box {
-    background-color: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    padding: 35px 50px;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    animation: scaleUp 0.5s ease-out forwards;
+.hero-slide-text {
+    text-align: right;
 }
 
-.slide-title {
+.hero-slide-title {
     font-size: 38px;
     font-weight: 800;
-    color: white;
-    margin: 0;
-    font-family: var(--font-tajawal);
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.slide-subtitle {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 8px 0;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.btn-slide {
-    background-color: white;
     color: var(--text-main);
-    border: none;
-    padding: 12px 36px;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    font-family: var(--font-tajawal);
+}
+
+.hero-slide-subtitle {
     font-size: 16px;
-    font-weight: 700;
-    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.btn-hero-slide {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: var(--radius-md);
+    border: none;
     cursor: pointer;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 0 15px rgba(219, 39, 119, 0.35), 0 6px 20px rgba(219, 39, 119, 0.25), inset 0 1px 3px rgba(255, 255, 255, 0.4);
     transition: all var(--transition-fast);
 }
 
-.btn-slide:hover {
+.btn-hero-slide:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 15px rgba(219, 39, 119, 0.4), var(--shadow-lg);
-    background-color: var(--primary-light);
-    color: var(--primary);
+    box-shadow: 0 0 25px rgba(219, 39, 119, 0.5), 0 10px 25px rgba(219, 39, 119, 0.35), inset 0 1px 4px rgba(255, 255, 255, 0.5);
 }
 
-/* أزرار الأسهم الدائرية للتنقل */
-.slider-btn {
+.hero-slide-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-slide-image img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    transform: rotate(-2deg);
+    transition: transform var(--transition-normal);
+}
+
+.hero-slide:hover .hero-slide-image img {
+    transform: rotate(0deg) scale(1.02);
+}
+
+/* أزرار التنقل بالأسهم */
+.hero-slider-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 54px;
-    height: 54px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    background-color: rgba(0, 0, 0, 0.35);
-    color: white;
-    font-size: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
     transition: all var(--transition-fast);
+    box-shadow: var(--shadow-sm);
 }
 
-.slider-btn:hover {
-    background-color: rgba(219, 39, 119, 0.8);
-    border-color: white;
-    box-shadow: 0 0 15px rgba(219, 39, 119, 0.6);
-    transform: translateY(-50%) scale(1.05);
+.hero-slider-btn:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(219, 39, 119, 0.4);
 }
 
 .prev-btn {
-    left: 24px;
+    left: 16px;
 }
 
 .next-btn {
-    right: 24px;
+    right: 16px;
 }
 
-/* النقاط السفلية */
-.slider-dots {
+/* النقاط السفلية للمؤشر */
+.hero-slider-dots {
     position: absolute;
-    bottom: 24px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -400,19 +400,23 @@ header {
     z-index: 10;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
+.hero-dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all var(--transition-fast);
 }
 
-.dot.active {
+.dark-mode .hero-dot {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.hero-dot.active {
     background-color: var(--primary);
     transform: scale(1.2);
-    box-shadow: 0 0 8px var(--primary);
+    box-shadow: 0 0 6px var(--primary);
 }
 
 /* الأقسام (Categories) */
